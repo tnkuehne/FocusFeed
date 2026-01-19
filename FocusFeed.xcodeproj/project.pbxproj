@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		25FDF3EF2F1EECAC003077C1 /* FocusFeedURLFilter.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 25FDF3E72F1EECAB003077C1 /* FocusFeedURLFilter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		25FDF3C62F1EEA13003077C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +25,34 @@
 			remoteGlobalIDString = 25FDF3B32F1EEA11003077C1;
 			remoteInfo = FocusFeed;
 		};
+		25FDF3ED2F1EECAC003077C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25FDF3AC2F1EEA11003077C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 25FDF3E62F1EECAB003077C1;
+			remoteInfo = FocusFeedURLFilter;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		25FDF3F42F1EECAC003077C1 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				25FDF3EF2F1EECAC003077C1 /* FocusFeedURLFilter.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		25FDF3B42F1EEA11003077C1 /* FocusFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25FDF3C52F1EEA13003077C1 /* FocusFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		25FDF3CF2F1EEA14003077C1 /* FocusFeedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusFeedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		25FDF3E72F1EECAB003077C1 /* FocusFeedURLFilter.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = FocusFeedURLFilter.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +62,13 @@
 				Info.plist,
 			);
 			target = 25FDF3B32F1EEA11003077C1 /* FocusFeed */;
+		};
+		25FDF3F32F1EECAC003077C1 /* Exceptions for "FocusFeedURLFilter" folder in "FocusFeedURLFilter" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 25FDF3E62F1EECAB003077C1 /* FocusFeedURLFilter */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -56,6 +89,14 @@
 		25FDF3D22F1EEA14003077C1 /* FocusFeedUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = FocusFeedUITests;
+			sourceTree = "<group>";
+		};
+		25FDF3E82F1EECAC003077C1 /* FocusFeedURLFilter */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				25FDF3F32F1EECAC003077C1 /* Exceptions for "FocusFeedURLFilter" folder in "FocusFeedURLFilter" target */,
+			);
+			path = FocusFeedURLFilter;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,6 +123,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		25FDF3E42F1EECAB003077C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +139,7 @@
 				25FDF3B62F1EEA11003077C1 /* FocusFeed */,
 				25FDF3C82F1EEA13003077C1 /* FocusFeedTests */,
 				25FDF3D22F1EEA14003077C1 /* FocusFeedUITests */,
+				25FDF3E82F1EECAC003077C1 /* FocusFeedURLFilter */,
 				25FDF3B52F1EEA11003077C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +150,7 @@
 				25FDF3B42F1EEA11003077C1 /* FocusFeed.app */,
 				25FDF3C52F1EEA13003077C1 /* FocusFeedTests.xctest */,
 				25FDF3CF2F1EEA14003077C1 /* FocusFeedUITests.xctest */,
+				25FDF3E72F1EECAB003077C1 /* FocusFeedURLFilter.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,10 +165,12 @@
 				25FDF3B02F1EEA11003077C1 /* Sources */,
 				25FDF3B12F1EEA11003077C1 /* Frameworks */,
 				25FDF3B22F1EEA11003077C1 /* Resources */,
+				25FDF3F42F1EECAC003077C1 /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				25FDF3EE2F1EECAC003077C1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				25FDF3B62F1EEA11003077C1 /* FocusFeed */,
@@ -176,6 +228,28 @@
 			productReference = 25FDF3CF2F1EEA14003077C1 /* FocusFeedUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		25FDF3E62F1EECAB003077C1 /* FocusFeedURLFilter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25FDF3F02F1EECAC003077C1 /* Build configuration list for PBXNativeTarget "FocusFeedURLFilter" */;
+			buildPhases = (
+				25FDF3E32F1EECAB003077C1 /* Sources */,
+				25FDF3E42F1EECAB003077C1 /* Frameworks */,
+				25FDF3E52F1EECAB003077C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				25FDF3E82F1EECAC003077C1 /* FocusFeedURLFilter */,
+			);
+			name = FocusFeedURLFilter;
+			packageProductDependencies = (
+			);
+			productName = FocusFeedURLFilter;
+			productReference = 25FDF3E72F1EECAB003077C1 /* FocusFeedURLFilter.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,6 +271,9 @@
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = 25FDF3B32F1EEA11003077C1;
 					};
+					25FDF3E62F1EECAB003077C1 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 				};
 			};
 			buildConfigurationList = 25FDF3AF2F1EEA11003077C1 /* Build configuration list for PBXProject "FocusFeed" */;
@@ -216,6 +293,7 @@
 				25FDF3B32F1EEA11003077C1 /* FocusFeed */,
 				25FDF3C42F1EEA13003077C1 /* FocusFeedTests */,
 				25FDF3CE2F1EEA14003077C1 /* FocusFeedUITests */,
+				25FDF3E62F1EECAB003077C1 /* FocusFeedURLFilter */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +314,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		25FDF3CD2F1EEA14003077C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25FDF3E52F1EECAB003077C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,6 +351,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		25FDF3E32F1EECAB003077C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -278,6 +370,11 @@
 			isa = PBXTargetDependency;
 			target = 25FDF3B32F1EEA11003077C1 /* FocusFeed */;
 			targetProxy = 25FDF3D02F1EEA14003077C1 /* PBXContainerItemProxy */;
+		};
+		25FDF3EE2F1EECAC003077C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 25FDF3E62F1EECAB003077C1 /* FocusFeedURLFilter */;
+			targetProxy = 25FDF3ED2F1EECAC003077C1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -299,6 +396,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -333,6 +431,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -555,6 +654,66 @@
 			};
 			name = Release;
 		};
+		25FDF3F12F1EECAC003077C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = FocusFeedURLFilter/FocusFeedURLFilter.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R5Q99LLTGQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FocusFeedURLFilter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FocusFeedURLFilter;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.timokuehne.FocusFeed.FocusFeedURLFilter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		25FDF3F22F1EECAC003077C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = FocusFeedURLFilter/FocusFeedURLFilter.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R5Q99LLTGQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FocusFeedURLFilter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FocusFeedURLFilter;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.timokuehne.FocusFeed.FocusFeedURLFilter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -590,6 +749,15 @@
 			buildConfigurations = (
 				25FDF3E12F1EEA14003077C1 /* Debug */,
 				25FDF3E22F1EEA14003077C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		25FDF3F02F1EECAC003077C1 /* Build configuration list for PBXNativeTarget "FocusFeedURLFilter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25FDF3F12F1EECAC003077C1 /* Debug */,
+				25FDF3F22F1EECAC003077C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
