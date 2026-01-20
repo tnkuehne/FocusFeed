@@ -50,8 +50,8 @@ final class URLFilterControlProvider: NEURLFilterControlProvider {
         let prefilterData = NEURLFilterPrefilter.PrefilterData.temporaryFilepath(tempURL)
 
         return NEURLFilterPrefilter(
-            tag: "youtube-shorts-blocker",
             data: prefilterData,
+            tag: "youtube-shorts-blocker",
             bitCount: Self.bloomFilterBitCount,
             hashCount: Self.bloomFilterHashCount,
             murmurSeed: Self.murmurSeed
