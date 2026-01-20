@@ -5,6 +5,7 @@
 //  Created by Claude on 19.01.26.
 //
 
+import Combine
 import NetworkExtension
 
 @MainActor
@@ -46,16 +47,11 @@ class FilterManager: ObservableObject {
         }
 
         // Configure the filter
-        // For development/personal use, we may not need a PIR server
-        // The extension will provide the Bloom filter directly
         manager.localizedDescription = "YouTube Shorts Blocker"
         manager.isEnabled = true
 
-        // Configure the URL filter with the extension bundle identifier
-        // Note: For development builds without PIR server, we configure minimal settings
-        try manager.configureURLFilter(
-            controlProviderBundleIdentifier: Self.extensionBundleIdentifier
-        )
+        // Set the control provider bundle identifier
+        manager.controlProviderBundleIdentifier = Self.extensionBundleIdentifier
 
         // Set prefilter fetch interval (how often to refresh the Bloom filter)
         manager.prefilterFetchInterval = 3600 // 1 hour
