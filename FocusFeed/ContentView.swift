@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var filterManager = FilterManager()
+    @State private var filterManager = FilterManager()
 
     var body: some View {
         NavigationStack {

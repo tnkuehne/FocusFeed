@@ -5,14 +5,15 @@
 //  Created by Claude on 19.01.26.
 //
 
-import Combine
 import NetworkExtension
+import Observation
 
+@Observable
 @MainActor
-class FilterManager: ObservableObject {
-    @Published var isEnabled = false
-    @Published var status = "Not configured"
-    @Published var isLoading = false
+class FilterManager {
+    var isEnabled = false
+    var status = "Not configured"
+    var isLoading = false
 
     static let extensionBundleIdentifier = "com.timokuehne.FocusFeed.FocusFeedURLFilter"
 
@@ -49,11 +50,6 @@ class FilterManager: ObservableObject {
         // Configure the filter
         manager.localizedDescription = "YouTube Shorts Blocker"
         manager.isEnabled = true
-
-        // Set the control provider bundle identifier
-        manager.controlProviderBundleIdentifier = Self.extensionBundleIdentifier
-
-        // Set prefilter fetch interval (how often to refresh the Bloom filter)
         manager.prefilterFetchInterval = 3600 // 1 hour
 
         try await manager.saveToPreferences()
