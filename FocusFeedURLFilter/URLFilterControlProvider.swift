@@ -29,11 +29,9 @@ final class URLFilterControlProvider: NEURLFilterControlProvider {
     }
 
     func start() async throws {
-        // Extension started
     }
 
     func stop(reason: NEProviderStopReason) async throws {
-        // Extension stopped
     }
 
     func fetchPrefilter() async throws -> NEURLFilterPrefilter? {
@@ -44,13 +42,19 @@ final class URLFilterControlProvider: NEURLFilterControlProvider {
             seed: Self.murmurSeed
         )
 
-        let prefilterData = NEURLFilterPrefilter.PrefilterData.inMemory(bloomFilterData)
+        // Write bloom filter to temporary file
+        let tempURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("bloomfilter.dat")
+        try bloomFilterData.write(to: tempURL)
+
+        let prefilterData = NEURLFilterPrefilter.PrefilterData.temporaryFilepath(tempURL)
 
         return NEURLFilterPrefilter(
             data: prefilterData,
             bitCount: Self.bloomFilterBitCount,
             hashCount: Self.bloomFilterHashCount,
-            murmurSeed: Self.murmurSeed
+            murmurSeed: Self.murmurSeed,
+            tag: "youtube-shorts-blocker"
         )
     }
 
@@ -59,7 +63,7 @@ final class URLFilterControlProvider: NEURLFilterControlProvider {
 
         for pattern in Self.blockedPatterns {
             if urlString.contains(pattern.lowercased()) {
-                return .drop
+                return .deny
             }
         }
 
