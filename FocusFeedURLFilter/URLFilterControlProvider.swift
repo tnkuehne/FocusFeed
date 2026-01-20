@@ -34,7 +34,7 @@ final class URLFilterControlProvider: NEURLFilterControlProvider {
     func stop(reason: NEProviderStopReason) async throws {
     }
 
-    func fetchPrefilter() async throws -> NEURLFilterPrefilter? {
+    func fetchPrefilter(existingPrefilterTag: String?) async throws -> NEURLFilterPrefilter? {
         let bloomFilterData = generateBloomFilter(
             patterns: Self.blockedPatterns,
             bitCount: Self.bloomFilterBitCount,
