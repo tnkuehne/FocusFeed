@@ -5,11 +5,8 @@
 //  Created by Timo Kuehne on 19.01.26.
 //
 
-import ExtensionFoundation
 import NetworkExtension
-import CryptoKit
 
-@main
 class URLFilterControlProvider: NEURLFilterControlProvider {
 
     // URL patterns to block for YouTube Shorts
@@ -25,24 +22,17 @@ class URLFilterControlProvider: NEURLFilterControlProvider {
     // For a small set of patterns, we use a modest filter size
     static let bloomFilterBitCount = 4096
     static let bloomFilterHashCount = 4
+    static let murmurSeed: UInt32 = 0x5F3759DF  // Seed for MurmurHash3
 
-    required internal init() {
-    }
+    // MARK: - NEURLFilterControlProvider Protocol
 
-    func start() async throws {
-        // Extension started
-    }
-
-    func stop(reason: NEProviderStopReason) async throws {
-        // Extension stopped
-    }
-
-    override func fetchPrefilter() async throws -> NEURLFilterPrefilter? {
+    func fetchPrefilter() async throws -> NEURLFilterPrefilter? {
         // Generate the Bloom filter containing our blocked patterns
         let bloomFilterData = generateBloomFilter(
             patterns: Self.blockedPatterns,
             bitCount: Self.bloomFilterBitCount,
-            hashCount: Self.bloomFilterHashCount
+            hashCount: Self.bloomFilterHashCount,
+            seed: Self.murmurSeed
         )
 
         let prefilterData = NEURLFilterPrefilter.PrefilterData.inMemory(bloomFilterData)
@@ -50,14 +40,12 @@ class URLFilterControlProvider: NEURLFilterControlProvider {
         return NEURLFilterPrefilter(
             data: prefilterData,
             bitCount: Self.bloomFilterBitCount,
-            hashCount: Self.bloomFilterHashCount
+            hashCount: Self.bloomFilterHashCount,
+            murmurSeed: Self.murmurSeed
         )
     }
 
-    override func handleVerdict(
-        for url: URL,
-        completionHandler: @escaping (NEURLFilterVerdict) -> Void
-    ) {
+    func handleVerdict(for url: URL) async -> NEURLFilter.Verdict {
         // Called when Bloom filter has a potential match
         // We need to confirm if this URL should actually be blocked
         // (Bloom filters can have false positives)
@@ -67,25 +55,24 @@ class URLFilterControlProvider: NEURLFilterControlProvider {
         for pattern in Self.blockedPatterns {
             if urlString.contains(pattern.lowercased()) {
                 // Confirmed match - block this request
-                completionHandler(.drop)
-                return
+                return .drop
             }
         }
 
         // False positive from Bloom filter - allow the request
-        completionHandler(.allow)
+        return .allow
     }
 
-    // MARK: - Bloom Filter Generation
+    // MARK: - Bloom Filter Generation using MurmurHash3
 
-    private func generateBloomFilter(patterns: [String], bitCount: Int, hashCount: Int) -> Data {
+    private func generateBloomFilter(patterns: [String], bitCount: Int, hashCount: Int, seed: UInt32) -> Data {
         // Create a bit array for the Bloom filter
         let byteCount = (bitCount + 7) / 8
         var filter = [UInt8](repeating: 0, count: byteCount)
 
         // For each pattern, compute multiple hash positions and set those bits
         for pattern in patterns {
-            let positions = hashPositions(for: pattern, bitCount: bitCount, hashCount: hashCount)
+            let positions = hashPositions(for: pattern, bitCount: bitCount, hashCount: hashCount, seed: seed)
             for position in positions {
                 let byteIndex = position / 8
                 let bitIndex = position % 8
@@ -96,8 +83,8 @@ class URLFilterControlProvider: NEURLFilterControlProvider {
         return Data(filter)
     }
 
-    private func hashPositions(for string: String, bitCount: Int, hashCount: Int) -> [Int] {
-        // Use double hashing technique with SHA256
+    private func hashPositions(for string: String, bitCount: Int, hashCount: Int, seed: UInt32) -> [Int] {
+        // Use double hashing technique with MurmurHash3
         // h(i) = (h1 + i * h2) mod m
         // This gives us multiple hash functions from two base hashes
 
@@ -105,25 +92,80 @@ class URLFilterControlProvider: NEURLFilterControlProvider {
             return []
         }
 
-        // Get SHA256 hash and split into two 128-bit halves
-        let hash = SHA256.hash(data: data)
-        let hashBytes = Array(hash)
+        let bytes = Array(data)
 
-        // Use first 8 bytes for h1, next 8 bytes for h2
-        let h1 = hashBytes[0..<8].reduce(0) { result, byte in
-            (result << 8) | UInt64(byte)
-        }
-        let h2 = hashBytes[8..<16].reduce(0) { result, byte in
-            (result << 8) | UInt64(byte)
-        }
+        // Get two hash values using MurmurHash3 with different seeds
+        let h1 = murmurHash3(bytes: bytes, seed: seed)
+        let h2 = murmurHash3(bytes: bytes, seed: seed &+ 1)
 
         var positions = [Int]()
         for i in 0..<hashCount {
-            let combinedHash = h1 &+ (UInt64(i) &* h2)
-            let position = Int(combinedHash % UInt64(bitCount))
+            let combinedHash = h1 &+ (UInt32(i) &* h2)
+            let position = Int(combinedHash % UInt32(bitCount))
             positions.append(position)
         }
 
         return positions
+    }
+
+    // MARK: - MurmurHash3 Implementation (32-bit)
+
+    private func murmurHash3(bytes: [UInt8], seed: UInt32) -> UInt32 {
+        let c1: UInt32 = 0xcc9e2d51
+        let c2: UInt32 = 0x1b873593
+        let length = bytes.count
+
+        var h1 = seed
+
+        // Body - process 4-byte chunks
+        let nblocks = length / 4
+        for i in 0..<nblocks {
+            let offset = i * 4
+            var k1 = UInt32(bytes[offset])
+            k1 |= UInt32(bytes[offset + 1]) << 8
+            k1 |= UInt32(bytes[offset + 2]) << 16
+            k1 |= UInt32(bytes[offset + 3]) << 24
+
+            k1 = k1 &* c1
+            k1 = (k1 << 15) | (k1 >> 17)  // ROTL32(k1, 15)
+            k1 = k1 &* c2
+
+            h1 ^= k1
+            h1 = (h1 << 13) | (h1 >> 19)  // ROTL32(h1, 13)
+            h1 = h1 &* 5 &+ 0xe6546b64
+        }
+
+        // Tail - handle remaining bytes
+        let tail = nblocks * 4
+        var k1: UInt32 = 0
+
+        switch length & 3 {
+        case 3:
+            k1 ^= UInt32(bytes[tail + 2]) << 16
+            fallthrough
+        case 2:
+            k1 ^= UInt32(bytes[tail + 1]) << 8
+            fallthrough
+        case 1:
+            k1 ^= UInt32(bytes[tail])
+            k1 = k1 &* c1
+            k1 = (k1 << 15) | (k1 >> 17)
+            k1 = k1 &* c2
+            h1 ^= k1
+        default:
+            break
+        }
+
+        // Finalization
+        h1 ^= UInt32(length)
+
+        // fmix32
+        h1 ^= h1 >> 16
+        h1 = h1 &* 0x85ebca6b
+        h1 ^= h1 >> 13
+        h1 = h1 &* 0xc2b2ae35
+        h1 ^= h1 >> 16
+
+        return h1
     }
 }
