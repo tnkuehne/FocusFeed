@@ -50,24 +50,12 @@ final class URLFilterControlProvider: NEURLFilterControlProvider {
         let prefilterData = NEURLFilterPrefilter.PrefilterData.temporaryFilepath(tempURL)
 
         return NEURLFilterPrefilter(
+            tag: "youtube-shorts-blocker",
             data: prefilterData,
             bitCount: Self.bloomFilterBitCount,
             hashCount: Self.bloomFilterHashCount,
-            murmurSeed: Self.murmurSeed,
-            tag: "youtube-shorts-blocker"
+            murmurSeed: Self.murmurSeed
         )
-    }
-
-    func handleVerdict(for url: URL) async -> NEURLFilter.Verdict {
-        let urlString = url.absoluteString.lowercased()
-
-        for pattern in Self.blockedPatterns {
-            if urlString.contains(pattern.lowercased()) {
-                return .deny
-            }
-        }
-
-        return .allow
     }
 
     // MARK: - Bloom Filter Generation using MurmurHash3
